@@ -21,7 +21,7 @@
  *   'aa',''    => 'aa'
  *   '',  'bb'  => 'bb'
  */
-function concatenateStrings(value1, value2) { 
+function concatenateStrings(value1, value2) {
     return value1.concat(value2);
 }
 
@@ -55,7 +55,7 @@ function getStringLength(value) {
  *   'Chuck','Norris'  => 'Hello, Chuck Norris!'
  */
 function getStringFromTemplate(firstName, lastName) {
-   return 'Hello, '+ firstName+' ' +lastName+'!';
+    return 'Hello, ' + firstName + ' ' + lastName + '!';
 }
 
 /**
@@ -69,7 +69,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-    return value.substring(7,value.length-1);
+    return value.substring(7, value.length - 1);
 }
 
 
@@ -84,7 +84,7 @@ function extractNameFromTemplate(value) {
  *   'cat'       => 'c'
  */
 function getFirstChar(value) {
-   return value[0];
+    return value[0];
 }
 
 /**
@@ -114,7 +114,7 @@ function removeLeadingAndTrailingWhitespaces(value) {
  *   'cat', 3 => 'catcatcat'
  */
 function repeatString(value, count) {
-  return value.repeat(count);
+    return value.repeat(count);
 }
 
 /**
@@ -130,7 +130,7 @@ function repeatString(value, count) {
  *   'ABABAB','BA' => 'ABAB'
  */
 function removeFirstOccurrences(str, value) {
- return str.replace(value,'');
+    return str.replace(value, '');
 }
 
 /**
@@ -145,7 +145,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    return str.slice(1,-1);
+    return str.slice(1, -1);
 }
 
 
@@ -201,7 +201,7 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
- 
+
 }
 
 
@@ -221,9 +221,9 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    var input     = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    var output    = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
-    var index     = x => input.indexOf(x);
+    var input = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    var output = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
+    var index = x => input.indexOf(x);
     var translate = x => index(x) > -1 ? output[index(x)] : x;
     return str.split('').map(translate).join('');
 }
@@ -271,7 +271,30 @@ function isString(value) {
  *   'K♠' => 51
  */
 function getCardId(value) {
-    
+    var shapes = new Map(), letters = new Map(), index;
+    shapes.set('♣', 0);
+    shapes.set('♦', 1);
+    shapes.set('♥', 2);
+    shapes.set('♠', 3);
+
+
+
+    for (let i = 2; i <= 10; i++) {
+        letters.set(i.toString(), i - 1);
+    }
+    letters.set('A', 0);
+    letters.set('J', 10);
+    letters.set('Q', 11);
+    letters.set('K', 12);
+
+    if (value.length < 3){
+        index = shapes.get(value[value.length - 1]) * 13 + letters.get(value[0]);
+   }
+   else{
+       index=shapes.get(value[value.length - 1]) * 13 +9;
+   }
+
+   return index;
 }
 
 

@@ -22,7 +22,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+   return Date.parse(value);
 }
 
 /**
@@ -37,7 +37,7 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+  return Date.parse(value);
 }
 
 
@@ -56,7 +56,14 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-   throw new Error('Not implemented');
+  
+   var dateYear=date.getFullYear(),result=false;
+   if (dateYear%4!=0) {result= false;}
+
+   else if (dateYear%100!=0) {result= true;}
+   else if (dateYear%400!=0) {result= false;}
+   else {result= true;}
+   return result;
 }
 
 
@@ -76,7 +83,28 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-   throw new Error('Not implemented');
+    var hours,minutes,seconds,milliseconds;
+    hours=endDate.getHours()-startDate.getHours();
+    minutes=endDate.getMinutes()-startDate.getMinutes();
+    seconds=endDate.getSeconds()-startDate.getSeconds();
+    milliseconds=endDate.getMilliseconds()-startDate.getMilliseconds();
+
+    if(hours<10){
+        hours='0'+hours;
+    }
+    if(minutes<10){
+        minutes='0'+minutes;
+    }
+    if(seconds<10){
+        seconds='0'+seconds;
+    }
+    if(milliseconds==0){
+        milliseconds='000';
+    }
+
+
+   return hours+':'+minutes+':'+seconds+'.'+milliseconds;
+
 }
 
 
@@ -94,7 +122,14 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
+   var hours = date.getUTCHours() % 12,isPortionWithTwelve;
+  
+    var hourMinPart = 0.5 * date.getUTCMinutes(), // 30 degrees per 60 minutes => 1/2 degree per 1 minute => 0.5 * minute
+        hourHourPart = 30 * date.getUTCHours(), // 30 degrees per 1 hour => 30 * hour
+        minAngle = 6 * date.getUTCMinutes(), // 360 degrees per 60 minutes => 6 degrees per 1 minute => 6 * minute
+        totalAngle = Math.abs(hourMinPart + hourHourPart - minAngle); // absolute difference
+
+        return isPortionWithTwelve ? 360 - totalAngle : totalAngle; // subtract the total angle from 360 to get the portion w/ 12
 }
 
 
